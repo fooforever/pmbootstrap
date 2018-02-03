@@ -1,0 +1,22 @@
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname="device-htc-m8"
+pkgdesc="HTC One M8"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="noarch"
+options="!check"
+depends="linux-htc-m8 mkbootimg mesa-dri-swrast"
+makedepends="devicepkg-dev"
+source="deviceinfo"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+sha512sums="51ed6098bf14848173ba8a1e8d1ea9dedad967c2027cd3206c4b532d78d19e47429a6e36d2792ba1335acc899bfb902ab7468ad432d966e4dfe5dd9ff2f7a9ba  deviceinfo"
