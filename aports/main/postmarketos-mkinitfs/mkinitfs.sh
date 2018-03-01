@@ -3,8 +3,10 @@
 source_deviceinfo()
 {
 	if [ ! -e "/etc/deviceinfo" ]; then
-		echo "ERROR: Missing /etc/deviceinfo!"
-		exit 1
+		echo "NOTE: deviceinfo (from device package) not installed yet," \
+			"not building the initramfs now (it should get built later" \
+			"automatically.)"
+		exit 0
 	fi
 	. /etc/deviceinfo
 }
@@ -106,6 +108,9 @@ get_binaries()
 {
 	if [ "${deviceinfo_msm_refresher}" == "true" ]; then
 		BINARIES="${BINARIES} /usr/sbin/msm-fb-refresher"
+	fi
+	if [ -f /usr/sbin/fbdebug ]; then
+		BINARIES="${BINARIES} /usr/sbin/fbdebug"
 	fi
 	lddtree -l $BINARIES | sort -u
 }

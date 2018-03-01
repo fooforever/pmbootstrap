@@ -16,17 +16,15 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with pmbootstrap.  If not, see <http://www.gnu.org/licenses/>.
 """
-import os
-import sys
 import glob
+import os
 import pytest
+import sys
 
 # Import from parent directory
 pmb_src = os.path.realpath(os.path.join(os.path.dirname(__file__) + "/.."))
 sys.path.append(pmb_src)
-import pmb.parse.apkindex
 import pmb.parse
-import pmb.helpers.logging
 
 
 @pytest.fixture
@@ -48,3 +46,25 @@ def test_deviceinfo(args):
         device = folder.split("-", 1)[1]
         print(device)
         pmb.parse.deviceinfo(args, device)
+
+
+def test_aports_device(args):
+    """
+    Various tests performed on the /device/device-* aports.
+    """
+
+    for path in glob.glob(args.aports + "/device/device-*/APKBUILD"):
+        apkbuild = pmb.parse.apkbuild(args, path)
+
+        # Depends: Require "postmarketos-base"
+        if "postmarketos-base" not in apkbuild["depends"]:
+            raise RuntimeError("Missing 'postmarketos-base' in depends of " +
+                               path)
+
+        # Depends: Must not have firmware packages
+        for depend in apkbuild["depends"]:
+            if depend.startswith("firmware-") or depend == "linux-firmware":
+                raise RuntimeError("Firmware package '" + depend + "' found in"
+                                   " depends of " + path + ". These go into"
+                                   " subpackages now, see"
+                                   " <https://postmarketos.org/devicepkg>.")
