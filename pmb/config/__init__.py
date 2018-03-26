@@ -45,8 +45,8 @@ apk_tools_static_min_version = "2.9.0-r0"
 work_version = "1"
 
 # Only save keys to the config file, which we ask for in 'pmbootstrap init'.
-config_keys = ["ccache_size", "device", "extra_packages", "jobs", "keymap",
-               "nonfree_firmware", "nonfree_userland",
+config_keys = ["ccache_size", "device", "extra_packages", "hostname", "jobs",
+               "keymap", "nonfree_firmware", "nonfree_userland",
                "qemu_native_mesa_driver", "timezone", "ui", "user", "work"]
 
 # Config file/commandline default values
@@ -62,6 +62,7 @@ defaults = {
     "config": os.path.expanduser("~") + "/.config/pmbootstrap.cfg",
     "device": "samsung-i9100",
     "extra_packages": "none",
+    "hostname": "",
     # A higher value is typically desired, but this can lead to VERY long open
     # times on slower devices due to host systems being MUCH faster than the
     # target device: <https://github.com/postmarketOS/pmbootstrap/issues/429>
@@ -399,3 +400,29 @@ aportgen = {
 # QEMU
 #
 qemu_native_mesa_drivers = ["dri-swrast", "dri-virtio"]
+
+#
+# NEWAPKBUILD
+# Options passed through to the "newapkbuild" command from Alpine Linux. They
+# are duplicated here, so we can use Python's argparse for argument parsing and
+# help page display. The -f (force) flag is not defined here, as we use that in
+# the Python code only and don't pass it through.
+#
+newapkbuild_arguments_strings = [
+    ["-n", "pkgname", "set package name (only use with SRCURL)"],
+    ["-d", "pkgdesc", "set package description"],
+    ["-l", "license", "set package license identifier from"
+                      " <https://spdx.org/licenses/>"],
+    ["-u", "url", "set package URL"],
+]
+newapkbuild_arguments_switches_pkgtypes = [
+    ["-a", "autotools", "create autotools package (use ./configure ...)"],
+    ["-C", "cmake", "create CMake package (assume cmake/ is there)"],
+    ["-m", "meson", "create meson package (assume meson.build is there)"],
+    ["-p", "perl", "create perl package (assume Makefile.PL is there)"],
+    ["-y", "python", "create python package (assume setup.py is there)"],
+]
+newapkbuild_arguments_switches_other = [
+    ["-s", "sourceforge", "use sourceforge source URL"],
+    ["-c", "copy_samples", "copy a sample init.d, conf.d and install script"],
+]
