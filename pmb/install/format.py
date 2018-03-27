@@ -58,7 +58,9 @@ def format_and_mount_pm_crypt(args):
     # Format
     if not args.rsync:
         logging.info("(native) format " + device)
-        pmb.chroot.root(args, ["mkfs.ext4", "-F", "-q", "-L", "pmOS_root", device])
+        # Some downstream kernels don't have metadata_csum yet (#1364)
+        pmb.chroot.root(args, ["mkfs.ext4", "-O", "^metadata_csum", "-F",
+                               "-q", "-L", "pmOS_root", device])
 
     # Mount
     mountpoint = "/mnt/install"
