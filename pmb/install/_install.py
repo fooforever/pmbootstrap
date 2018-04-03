@@ -303,6 +303,17 @@ def install_system_image(args):
     logging.info("*** (5/5) FLASHING TO DEVICE ***")
     logging.info("Run the following to flash your installation to the"
                  " target device:")
+
+    # System flash information
+    if not args.sdcard:
+        logging.info("* pmbootstrap flasher flash_rootfs")
+        logging.info("  Flashes the generated rootfs image to your device:")
+        logging.info("  " + args.work + "/chroot_native/home/pmos/rootfs/" +
+                     args.device + ".img")
+        logging.info("  (NOTE: This file has a partition table, which contains"
+                     " /boot and / subpartitions. That way we don't need to"
+                     " change the partition layout on your device.)")
+
     logging.info("* pmbootstrap flasher flash_kernel")
     logging.info("  Flashes the kernel + initramfs to your device:")
     logging.info("  " + args.work + "/chroot_rootfs_" + args.device +
@@ -313,16 +324,6 @@ def install_system_image(args):
         logging.info("  (NOTE: " + method + " also supports booting"
                      " the kernel/initramfs directly without flashing."
                      " Use 'pmbootstrap flasher boot' to do that.)")
-
-    # System flash information
-    if not args.sdcard:
-        logging.info("* pmbootstrap flasher flash_system")
-        logging.info("  Flashes the system image, that has been"
-                     " generated to your device:")
-        logging.info("  " + args.work + "/chroot_native/home/pmos/rootfs/" +
-                     args.device + ".img")
-        logging.info("  (NOTE: This file has a partition table,"
-                     " which contains a boot- and root subpartition.)")
 
     # Export information
     logging.info("* If the above steps do not work, you can also create"
