@@ -42,7 +42,7 @@ apk_tools_static_min_version = "2.9.0-r0"
 # Version of the work folder (as asked during 'pmbootstrap init'). Increase
 # this number, whenever migration is required and provide the migration code,
 # see migrate_work_folder()).
-work_version = "1"
+work_version = 2
 
 # Only save keys to the config file, which we ask for in 'pmbootstrap init'.
 config_keys = ["ccache_size", "device", "extra_packages", "hostname", "jobs",
@@ -318,7 +318,7 @@ flashers = {
                 {
                     "list_devices": [["fastboot", "-i", "$VENDOR_ID",
                                       "devices", "-l"]],
-                    "flash_system": [["fastboot", "-i", "$VENDOR_ID",
+                    "flash_rootfs": [["fastboot", "-i", "$VENDOR_ID",
                                       "flash", "$PARTITION_SYSTEM", "$IMAGE"]],
                     "flash_kernel": [["fastboot", "-i", "$VENDOR_ID",
                                       "flash", "boot", "$BOOT/boot.img-$FLAVOR"]],
@@ -337,7 +337,7 @@ flashers = {
         "actions":
         {
             "list_devices": [["heimdall", "detect"]],
-            "flash_system": [
+            "flash_rootfs": [
                 ["heimdall_wait_for_device.sh"],
                 ["heimdall", "flash", "--$PARTITION_SYSTEM", "$IMAGE"]],
             "flash_kernel": [["heimdall_flash_kernel.sh",
@@ -352,7 +352,7 @@ flashers = {
         "actions":
         {
             "list_devices": [["heimdall", "detect"]],
-            "flash_system": [
+            "flash_rootfs": [
                 ["heimdall_wait_for_device.sh"],
                 ["heimdall", "flash", "--$PARTITION_SYSTEM", "$IMAGE"]],
             "flash_kernel": [
