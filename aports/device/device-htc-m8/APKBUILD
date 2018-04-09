@@ -7,7 +7,7 @@ url="https://postmarketos.org"
 license="MIT"
 arch="noarch"
 options="!check"
-depends="linux-htc-m8 mkbootimg mesa-dri-swrast msm-fb-refresher"
+depends="linux-htc-m8 mkbootimg mesa-dri-swrast msm-fb-refresher postmarketos-base"
 makedepends="devicepkg-dev"
 source="deviceinfo
 	initfs-hook.sh
